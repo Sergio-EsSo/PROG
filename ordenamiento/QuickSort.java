@@ -19,7 +19,25 @@ public class QuickSort {
         }
     }
 
-    private static int particion(int[] array, int izq, int der){
+        private static int particion(int[] array, int izq, int der){
+        int pivote = array[der];
+        int i = (izq-1);
 
+        for(int j=izq; j<der; j++){
+            if(array[j] <= pivote){
+                i++;
+                //intercambio O swap
+                int temp = array[i];
+                array[i] = array[j];
+                array[j] = temp;
+            }
+        }
+
+        //Pivote en la posición final
+        int temp = array[i+1];
+        array[i+1] = array[der];
+        array[der] = temp;
+
+        return i+1;
     }
 }
