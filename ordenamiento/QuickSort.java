@@ -1,14 +1,27 @@
 package ordenamiento;
 
 import java.util.Arrays;
+import java.util.Random;
 
 public class QuickSort {
+
+    //1e6 posiciones (un millón)
+    //
 
     public static void main(String[] args) {
         
         int[] datos = {2, 5, 0, 9, 3, 1, 8, 4, 7, 6, 2, 5, 9, 0, 3, 1, 4, 7, 8, 2};
         quicksort(datos, 0, datos.length-1);
         System.out.println("Datos ordenados: \n"+Arrays.toString(datos));
+
+        int[] numeros = new int[1000000];
+        Random rand = new Random();
+        for(int i=0; i<numeros.length; i++){
+            numeros[i] = rand.nextInt(100);
+        }
+        //ordenadito
+        quicksort(numeros, 0, numeros.length-1);
+        System.out.println(Arrays.toString(numeros));
     }
 
     public static void quicksort(int[] arr, int izq, int der){
