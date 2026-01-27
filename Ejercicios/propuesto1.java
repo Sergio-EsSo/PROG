@@ -1,10 +1,10 @@
 package Ejercicios;
 
-import java.util.Random;
+//import java.util.Random;
 
 public class propuesto1 {
 
-    public static void ordena(int array[]){
+/*  public static void ordena(int array[]){
         int aux;
         for(int i=array.length; i>0; i++){
             
@@ -17,6 +17,6 @@ public class propuesto1 {
         Random random = new Random();
 
         
-    }
+    }*/
 
 }
