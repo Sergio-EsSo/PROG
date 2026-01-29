@@ -6,7 +6,7 @@ import java.util.Random;
 public class propuesto7b {
 
     /*Reto: Fusión Eficiente de Arrays Ordenados
-    Contexto: Se te proporcionan dos arreglos de números neteros, arr1 y arr2,
+    Contexto: Se te proporcionan dos arreglos de números enteros, arr1 y arr2,
     los cuales ya se encuentran ordenados de forma ascendente.
     Desafío: Implementa una función (metodo) que combibe ambos arreglos en un único nuevo arreglo, manteniendo el orden ascendente en todo momento.*/
 
@@ -17,18 +17,12 @@ public class propuesto7b {
         
         Asegúrate de gestionar correctamente los casos en los que un arreglo es más largo que el otro o cuando uno de ellos está vacío.*/
 
-        public static int[] fusionEficiente(int[] arr1, int[] arr2){
-
-            int[] algo = new int[5];
-            return algo;
-        }
-
         public static int[] apretujaOrdenado(int[] arr1, int[] arr2){
 
             int[] mezcla = new int[arr1.length+arr2.length];
             //1. recorrer ambos simultaneamente
-            int i, j, k;
-            for(i=0, j=0, k=0; i<arr1.length && j<arr2.length; k++){
+            int i=0, j=0, k=0;
+            while(i<arr1.length && j<arr2.length){ //no me sale con un FOR así que lo cambié a un WHILE
                 //2. comparar uno de la primera con uno de la segunda y colocar en la mezcla
                 if(arr1[i]<arr2[j]) {
                     mezcla[k] = arr1[i];
@@ -38,8 +32,19 @@ public class propuesto7b {
                     mezcla[k] = arr2[j];
                     j++;
                 }
-            }//fin bucle for
+                k++;
+            }//fin bucle WHILE
 
+            while(i<arr1.length){
+                mezcla[k] = arr1[i];
+                i++;
+                k++;
+            }
+            while (j<arr2.length) {
+                mezcla[k] = arr2[j];
+                j++;
+                k++;
+            }
             System.out.println("indice i: "+i);
             System.out.println("indice j: "+j);
             System.out.println("indice k: "+k);
@@ -50,14 +55,17 @@ public class propuesto7b {
         public static void main(String[] args) {
             
             //genera dos arrays
-            int[] uno = new int[70];
-            int[] otro = new int[60];
+            int[] uno = new int[6];
+            int[] otro = new int[7];
 
+            //se rellenan
             Random rnd = new Random();
-            for(int i=0; i<uno.length; i++) uno[i] = rnd.nextInt(350);
+            for(int i=0; i<uno.length; i++) uno[i] = rnd.nextInt(20);
+            Arrays.sort(uno);
             System.out.println(Arrays.toString(uno));
 
-            for(int i=0; i<otro.length; i++) otro[i] = rnd.nextInt(525);
+            for(int i=0; i<otro.length; i++) otro[i] = rnd.nextInt(20);
+            Arrays.sort(otro);
             System.out.println(Arrays.toString(otro));
 
             int[] completo = apretujaOrdenado(uno, otro);
