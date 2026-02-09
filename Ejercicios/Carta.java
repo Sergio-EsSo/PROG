@@ -30,8 +30,9 @@ public class Carta implements Comparable<Carta>{
     @Override
     public String toString(){return this.valor+" de "+this.palo;}
     @Override
-    public int compareTo(Carta o){
-        Carta c = (Carta) o;
-        return (this.getPalo()).compareTo(c.getPalo());
+    public int compareTo(Carta otra){
+        int comparacionPalo = this.palo.compareTo(otra.palo);
+        if(comparacionPalo!=0) return comparacionPalo;
+        return this.valor.compareTo(otra.valor);
     }
 }
