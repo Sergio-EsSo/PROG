@@ -4,22 +4,33 @@ import java.util.ArrayList;
 
 public class JuegoDeCartas {
 
-    public static void main(String[] args) {
-        
-        ArrayList<Carta> mano = new ArrayList<Carta>();
+	public static void main(String[] args) {
 
-        for(int i=0; i<5; i++){
-            Carta carta = new Carta();
-            //System.out.println(carta);
-            mano.add(carta);
-        }
+		ArrayList<Carta> mano = new ArrayList<>();
 
-        mano.sort((o1, o2) -> o1.compareTo(o2));
+		while(mano.size()<5) {
+			Carta carta = new Carta();
+			if (!mano.contains(carta)) {
+				mano.add(carta);
+			}
+		}
 
-        System.out.println("Mira tu mano: ");
-        //System.out.println(mano);
-        for(Carta carta : mano){
-            System.out.println(carta);
-        }
-    }
+		// ordena el arraylist con el metodo de comparacion declarado en carta
+		mano.sort((cb1, cb2) -> cb1.compareTo(cb2));
+
+		/*mano.sort((cb1, cb2) -> {
+			int comPalo = (cb1.getPalo()).compareTo(cb2.getPalo());
+			if (comPalo != 0) {
+				return comPalo;
+			}
+			return (cb1.getValor().compareTo(cb2.getValor()));
+		});*/
+
+		// mano.sort(CartaBaraja::compareTo);
+
+		System.out.println("Tu mano:");
+		for (Carta carta : mano) {
+			System.out.println(carta);
+		}
+	}
 }
