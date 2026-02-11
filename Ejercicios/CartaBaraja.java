@@ -1,9 +1,25 @@
 package Ejercicios;
 
+import java.util.HashMap;
 import java.util.Objects;
 import java.util.Random;
 
 public class CartaBaraja implements Comparable<CartaBaraja> {
+
+	public static HashMap<valores, Integer> puntos = new HashMap<>();
+
+	static{	
+		puntos.put(valores.DOS, 0);
+		puntos.put(valores.TRES, 10);
+		puntos.put(valores.CUATRO, 0);
+		puntos.put(valores.CINCO, 0);
+		puntos.put(valores.SEIS, 0);
+		puntos.put(valores.SIETE, 0);
+		puntos.put(valores.SOTA, 2);
+		puntos.put(valores.CABALLO, 3);
+		puntos.put(valores.REY, 4);
+		puntos.put(valores.AS, 11);
+	}
 
 	enum valores{
 		AS, DOS, TRES, CUATRO, CINCO, SEIS, SIETE, SOTA, CABALLO, REY
@@ -12,28 +28,22 @@ public class CartaBaraja implements Comparable<CartaBaraja> {
 		COPAS, ESPADAS, BASTOS, OROS
 	}
 	//atributos
-	String valor;
-	String palo;
+	valores valor;
+	palos palo;
 	//constructor
-	CartaBaraja(){
+	public CartaBaraja(){
 		Random random = new Random();
-		valores[] arrayValores = valores.values(); 
-		palos[] arrayPalos = palos.values();
-		valor = arrayValores[random.nextInt(arrayValores.length)].name();
-		palo = arrayPalos[random.nextInt(arrayPalos.length)].name();
+		valor = valores.values()[random.nextInt(valores.values().length)];
+		palo = palos.values()[random.nextInt(palos.values().length)];
 	}
 	@Override
 	public int compareTo(CartaBaraja otra) {
 	    // Comparamos los palos según su orden en el Enum (COPAS=0, ESPADAS=1, etc.)
-	    int pEste = palos.valueOf(this.palo).ordinal();
-	    int pOtro = palos.valueOf(otra.palo).ordinal();
-	    if (pEste != pOtro) {
-	        return Integer.compare(pEste, pOtro);
+	    if (this.palo != otra.palo) {
+	        return Integer.compare(this.palo.ordinal(), otra.palo.ordinal());
 	    }
 	    // Si el palo es el mismo, comparamos el orden de los valores
-	    int vEste = valores.valueOf(this.valor).ordinal();
-	    int vOtro = valores.valueOf(otra.valor).ordinal();
-	    return Integer.compare(vEste, vOtro);
+	    return Integer.compare(this.palo.ordinal(), otra.palo.ordinal());
 	}
 	@Override
 	public int hashCode() {
@@ -50,10 +60,15 @@ public class CartaBaraja implements Comparable<CartaBaraja> {
 		CartaBaraja otra = (CartaBaraja) obj;
 		return Objects.equals(palo, otra.palo) && Objects.equals(valor, otra.valor);
 	}
-	public String getValor() {
+	public valores getValor() {
 		return valor;
 	}
-	public String getPalo() {
+	public palos getPalo() {
 		return palo;
+	}
+	@Override
+	public String toString() {
+		// Esto es lo que Java usará cuando hagas System.out.println(carta)
+		return this.valor + " de " + this.palo;
 	}
 }
