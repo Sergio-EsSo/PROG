@@ -1,5 +1,8 @@
 package listas;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Ejercicio7 {
 
     /*La máquina Eurocoin genera una moneda de curso legal cada vez que se pulsa un botón siguiendo la siguiente pauta: 
@@ -11,9 +14,16 @@ public class Ejercicio7 {
      */
 
     public static void main(String[] args) {
+        //se crean las monedas
+        List<Eurocoin> monedas = new ArrayList<>();
         
-        for(int i=0; i<20; i++){
-            System.out.println(new Eurocoin());
+        for(int i=0; i<6; i++){
+            monedas.add(new Eurocoin());
         }
+        System.out.println("Sin ordenar:");
+        monedas.forEach(System.out::println);
+        System.out.println("");
+        //ORDEÑAMIENTO
+        
     }
 }
