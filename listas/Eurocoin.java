@@ -1,13 +1,27 @@
 package listas;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Objects;
 import java.util.Random;
 
 public class Eurocoin implements Comparable<Eurocoin> {
 
-    String[] valores = {"1 céntimo", "2 céntimos", "5 céntimos", "10 céntimos", "20 céntimos", "50 céntimos", "1 euro", "2 euros"};
-    String[] lados = {"cara", "cruz"};
+    public static HashMap<String, Float> contar = new HashMap<String, Float>();
+
+    public static void cargarContar(){
+        contar.put("1 céntimo", 0.01f);
+        contar.put("2 céntimos", 0.02f);
+        contar.put("5 céntimos", 0.05f);
+        contar.put("10 céntimos", 0.1f);
+        contar.put("20 céntimos", 0.2f);
+        contar.put("50 céntimos", 0.5f);
+        contar.put("1 euro", 1f);
+        contar.put("2 euros", 2f);
+    }
+
+    static String[] valores = {"1 céntimo", "2 céntimos", "5 céntimos", "10 céntimos", "20 céntimos", "50 céntimos", "1 euro", "2 euros"};
+    static String[] lados = {"cara", "cruz"};
 
     String valor;
     String lado;

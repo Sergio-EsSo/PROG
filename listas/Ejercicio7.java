@@ -2,6 +2,7 @@ package listas;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Collections;
 
 public class Ejercicio7 {
 
@@ -15,15 +16,26 @@ public class Ejercicio7 {
 
     public static void main(String[] args) {
         //se crean las monedas
+        Eurocoin.cargarContar();
         List<Eurocoin> monedas = new ArrayList<>();
         
         for(int i=0; i<6; i++){
-            monedas.add(new Eurocoin());
+            Eurocoin euro = new Eurocoin();
+            System.out.println(euro);
+            monedas.add(euro);
         }
-        System.out.println("Sin ordenar:");
-        monedas.forEach(System.out::println);
-        System.out.println("");
         //ORDEÑAMIENTO
-        
+        Collections.sort(monedas);
+        System.out.println("\nordenado");
+        monedas.forEach(coin -> System.out.println(coin));
+
+        float total=0f;
+        //y cuanta pasta hay en la coleccion de monedas
+        for(int i=0; i<6; i++){ //con un foreach también sirve
+            Eurocoin euro = monedas.get(i); //y te ahorras esto
+            //System.out.println(euro); //se ahorra esto o se duplica la impresión
+            total+= Eurocoin.contar.get(euro.getValor());
+        }
+        System.out.println("\ntotal dinero: "+total);
     }
 }
