@@ -49,11 +49,9 @@ public class GestionDiscos {
         String generoIn = sc.nextLine();
         System.out.print("Duracion: ");
         Integer duracionIn = Integer.parseInt(sc.nextLine());
+
+        discos[pos] = new Disco(codigoIn, autorIn, tituloIn, generoIn, duracionIn);
         //como encuentro la primera libre??????
-
-
-
-
     }
     private static void cargarColeccion(){
         File fichero = new File("coleccion.obj");
@@ -90,6 +88,14 @@ public class GestionDiscos {
         int opcion=0;
         boolean bucle = true;
         //empezar
+        if(discos.length==0){
+            crearColeccion();
+            mockDiscos();
+        }else{
+            //cargar automáticamente desde disco duro al empezar
+            cargarColeccion();
+        }
+        //empezar
         crearColeccion();
         mockDiscos();
         do {
@@ -108,6 +114,7 @@ public class GestionDiscos {
                 case 1:
                     System.out.println("\nLISTADO");
                     System.out.println("=======");
+                    //método para listar
                     for (Disco d : discos) {
                         if (!d.getCodigo().equals("LIBRE")) {
                             System.out.println(d);
