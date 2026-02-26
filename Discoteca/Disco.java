@@ -1,7 +1,10 @@
 package Discoteca;
 
-public class Disco {
+import java.io.Serializable;
 
+public class Disco implements Serializable {
+
+	//para poder GUARDAR objetos, se implementa una interfaz llamada serializable
     //atributos
 	private String codigo = "LIBRE";
 	private String autor;
