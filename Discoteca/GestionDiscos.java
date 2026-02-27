@@ -51,8 +51,30 @@ public class GestionDiscos {
         Integer duracionIn = Integer.parseInt(sc.nextLine());
 
         discos[pos] = new Disco(codigoIn, autorIn, tituloIn, generoIn, duracionIn);
-        //como encuentro la primera libre??????
+        System.out.println("Añadido disco a la colección");
     }
+    public static int buscarCodigo(){
+        System.out.print("Introduzca código existente: ");
+        String code = sc.nextLine();
+        for(int i=0; i<discos.length; i++){
+            if(discos[i].getCodigo().equals(code)){
+                return i;
+            }
+        }
+        return -1;
+    }
+    public static void modificarDiscoExistente(){
+        System.out.println("Hay que buscar por código el disco a modificar");
+        System.out.println("una vez encontrado, se muestran los datos");
+        System.out.println("y se piden de nuevo");
+
+        int indice =  buscarCodigo();
+        if(indice<discos.length){
+            System.out.println("MOSTRAR DATOS DISCO");
+            System.out.println();
+        }
+    }
+
     private static void cargarColeccion(){
         File fichero = new File("coleccion.obj");
         //Verificamos si el archivo existe antes de intentar leerlo
