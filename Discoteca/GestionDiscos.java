@@ -11,8 +11,8 @@ import java.util.Scanner;
 public class GestionDiscos {
 
     public static Disco[] discos = new Disco[100];
-
-    public static Scanner sc;
+    public static Scanner sc = new Scanner(System.in);
+    private static final String ARCHIVO = "coleccion.obj";
 
     public static void crearColeccion(){
         for(int i=0; i<discos.length; i++){
@@ -26,19 +26,22 @@ public class GestionDiscos {
         discos[2] = new Disco("TYUI89", "Supersubmarina", "Viento de cara", "pop rock", 42);
     }
     private static void addDisco(){
-        System.out.println("Hay que pedir los datos del disco:");
-        System.out.println("hay que crear un disco nuevo");
-        System.out.println("se añadirá a la colección antes del primero disco libre");
+        //System.out.println("Hay que pedir los datos del disco:");
+        //System.out.println("hay que crear un disco nuevo");
+        //System.out.println("se añadirá a la colección antes del primero disco libre");
 
-        boolean trovato=true;
         int pos=-1;
-        do{
-            pos++;
-            if(discos[pos].getCodigo().equals("LIBRE")) trovato=false;
-        }while(trovato);
-
+        for(int i=0; i<discos.length; i++){
+            if (discos[i].getCodigo().equals("LIBRE")){
+                pos = i;
+                break;
+            }
+        }
+        if(pos==-1){
+            System.out.println("Colección llena");
+            return;
+        }
         System.out.println("Por favor, introduzca los datos del disco.");
-        //repetir??
         System.out.print("Codigo: ");
         String codigoIn = sc.nextLine();
         System.out.print("Autor: ");
@@ -57,22 +60,55 @@ public class GestionDiscos {
         System.out.print("Introduzca código existente: ");
         String code = sc.nextLine();
         for(int i=0; i<discos.length; i++){
-            if(discos[i].getCodigo().equals(code)){
+            if(discos[i].getCodigo().equalsIgnoreCase(code)){
                 return i;
             }
         }
         return -1;
     }
     public static void modificarDiscoExistente(){
-        System.out.println("Hay que buscar por código el disco a modificar");
-        System.out.println("una vez encontrado, se muestran los datos");
-        System.out.println("y se piden de nuevo");
+        //System.out.println("Hay que buscar por código el disco a modificar");
+        //System.out.println("una vez encontrado, se muestran los datos");
+        //System.out.println("y se piden de nuevo");
 
         int indice =  buscarCodigo();
-        if(indice<discos.length){
-            System.out.println("MOSTRAR DATOS DISCO");
-            System.out.println();
+        if(indice==-1){
+            System.out.println("Código no encontrado");
         }
+        else{
+            Disco d = discos[indice];
+            System.out.println("MOSTRAR DATOS DISCO");
+            System.out.println(d.toString());
+            System.out.println("Y ahora a modificar.....");
+
+            System.out.println("Si no escribes nada, no se modifica el valor mostrado");
+
+            System.out.print("Código ("+d.getCodigo()+"): ");
+            String codigoIn = sc.nextLine();
+            if(!codigoIn.isBlank()) d.setCodigo(codigoIn);
+
+            System.out.print("Autor ("+d.getAutor()+"): ");
+            String autorIn = sc.nextLine();
+            if(!autorIn.isBlank()) d.setAutor(autorIn);
+
+            System.out.print("Título ("+d.getTitulo()+"): ");
+            String tituloIn = sc.nextLine();
+            if(!tituloIn.isBlank()) d.setTitulo(tituloIn);
+
+            System.out.print("Género ("+d.getGenero()+"): ");
+            String generoIn = sc.nextLine();
+            if(!generoIn.isBlank()) d.setGenero(generoIn);
+
+            System.out.print("Duración ("+d.getDuracion()+"): ");
+            String duracionIn = sc.nextLine();
+            if(!duracionIn.isBlank()) d.setDuracion(Integer.parseInt(duracionIn));
+        }
+        //nos falta algo por hacer (guardar d en la coleccion)
+        //no porque se ha usado new
+        //simplemente tengo dos referencias a un unico objeto en memoria
+        //d y discors[indice] apuntan al mismo objeto
+
+        System.out.println("\nDisco actualizado correctamente");
     }
 
     private static void cargarColeccion(){
@@ -96,12 +132,44 @@ public class GestionDiscos {
     }
     private static void guardarColeccion(){
         //Usamos try-with-sources para que el archivo se cierre solo
-        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("coleccion.obj"))){
+        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(ARCHIVO))){
             //guardamos el array completo de un solo golpe
             oos.writeObject(discos);
             System.out.println("Colección guardada correctamente en coleccion.obj");
         } catch (IOException e){
             System.out.println("Error al guardar la colección: "+e.getMessage());
+        }
+    }
+    private static void borrarDiscoExistente() {
+        //System.out.println("Hay que buscar por codigo el disco a BORRAR");
+        //System.out.println("una vez encontrad, se muestran los datos del disco");
+        //System.out.println("y se pregunta si quiere borrar S/N");
+        //System.out.println("Se pregunta de nuevo");
+        int indice = buscarCodigo();
+        if(indice==-1){
+            System.out.println("Código no encontrado");
+        }
+        else{
+            System.out.println("MOSTRAR DATOS DISCO");
+            System.out.println(discos[indice].toString());
+            System.out.println("Y ahora a modificar.....");
+
+            System.out.print("Deseas borrar este disco? (S/N) ");
+            String opcion1 = sc.nextLine();
+            if(opcion1.equalsIgnoreCase("s")){
+                System.out.print("Estas seguro? (S/N) ");
+                String opcion2 = sc.nextLine();
+                if(opcion2.equalsIgnoreCase("s")){
+                    discos[indice] = new Disco(); //reutilizarlo como LIBRE
+                    System.out.println("Disco BORRADO");
+                }
+                else{
+                    System.out.println("Disco NO borrado");
+                }
+            }
+            else{
+                System.out.println("Disco NO borrado");
+            }
         }
     }
 
@@ -151,10 +219,12 @@ public class GestionDiscos {
                 case 3:
                     System.out.println("\nMODIFICAR");
                     System.out.println("===========");
+                    modificarDiscoExistente();
                     break;
                 case 4:
                     System.out.println("\nBORRAR");
                     System.out.println("======");
+                    borrarDiscoExistente();
                     break;
                 case 5:
                     System.out.println("\nGuardar en el Almacenamiento");
