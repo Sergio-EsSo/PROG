@@ -9,6 +9,7 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Scanner;
 
 public class GestionDiscos {
@@ -144,6 +145,40 @@ public class GestionDiscos {
         }
         System.out.println("\nDisco actualizado correctamente");
     }
+    public static void ordenarYlistar() {
+        System.out.println("\n¿Por qué atributo quieres ordenar?");
+        System.out.println("1. Autor");
+        System.out.println("2. Título");
+        System.out.println("3. Género");
+        System.out.println("4. Duración");
+        System.out.print("Introduzca una opción: ");
+
+        try {
+            int opcion = Integer.parseInt(sc.nextLine());
+            Comparator<Disco> comparator = null;
+
+            // Asignamos el comparador según la opción elegida
+            switch (opcion) {
+                case 1 -> comparator = Comparator.comparing(Disco::getAutor);
+                case 2 -> comparator = Comparator.comparing(Disco::getTitulo);
+                case 3 -> comparator = Comparator.comparing(Disco::getGenero);
+                case 4 -> comparator = Comparator.comparing(Disco::getDuracion);
+                default -> System.out.println("Opción no válida. Volviendo al menú principal.");        
+            }
+
+            if (comparator != null) {
+                // Fijate que no es Collections sort sino discos.sort
+                discos.sort(comparator);
+                System.out.println("\nColección ordenada correctamente");
+            } else {
+                for (Disco d : discos){
+                    System.out.println(d);
+                }            
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Error: Debes introducir un número válido");
+        }
+    }
 
     public static void main(String[] args) {
         int opcion =0;
@@ -168,7 +203,8 @@ public class GestionDiscos {
             System.out.println("4. Borrar");
             System.out.println("5. Guardar colección");
             System.out.println("6. Cargar colección");
-            System.out.println("7. Salir");
+            System.out.println("7. Ordenamiento");
+            System.out.println("8. Salir");
             System.out.print("Introduzca una opción: ");
             opcion = Integer.parseInt(sc.nextLine());
             switch (opcion) {
@@ -189,7 +225,7 @@ public class GestionDiscos {
                 case 3:
                     System.out.println("\nMODIFICAR");
                     System.out.println("===========");
-                    //modificarDiscoExistente();
+                    modificarDiscoExistente();
                     break;
                 case 4:
                     System.out.println("\nBORRAR");
@@ -207,10 +243,13 @@ public class GestionDiscos {
                     cargarColeccion();
                     break;
                 case 7:
+                    System.out.println("\nOrdenar el listado de discos");
+                    ordenarYlistar();
+                    break;
+                case 8:
                     System.out.println("Cao peschao");
                     seguir=false;
                     //guardo automaticamente la coleccion:
-                    guardarColeccion();
                     break;
                 default:
                     System.out.println("\nDAME UNA OPCIÓN REAL (cabezabuquismo)");
