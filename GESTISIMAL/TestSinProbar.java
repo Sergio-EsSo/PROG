@@ -1,31 +1,32 @@
 package GESTISIMAL;
 
 import java.util.Scanner;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 public class TestSinProbar {
-    /**
-     * Se comunica con el usuario (E/S de datos por consola) Comprueba si existe o
-     * no el artículo en el almacén Comprueba que el stock no sea negativo en el
-     * almacén Comprueba que el articulo exista para borrarlo del almacén.
-     * 
-     * Test para comprobar la clase Gestisimal.
-     * 
-     * @author Rafael Miguel Cruz Álvarez
-     * @author Fco Javier Frías Serrano
-     * @version 1.0
-     */
 
     static Almacen almacen = new Almacen();
     static Scanner entrada = new Scanner(System.in);
     private static Menu menu = new Menu("----MENÚ GESTISIMAL----", new String[] { "Listado", "Alta", "Baja",
-            "Modificación", "Entada de mercancía", "Salida de mercancía", "Salir" });
+            "Modificación", "Entada de mercancía", "Salida de mercancía", "Guardar almacén", "Cargar almacén", "Salir" });
+    private static String archivo = "almacen.obj";
 
     public static void main(String[] args) throws Exception {
 
         int opcion;
-        almacenDePrueba();
-
-        // almacenDePrueba();
+        //INICIALIZAR
+        if(almacen.vacio()){
+            almacenDePrueba();
+        }
+        else{
+            cargarAlmacen();
+        }
+        //MENU
         do {
             opcion = menu.gestionar();
             
@@ -47,6 +48,12 @@ public class TestSinProbar {
                     break;
                 case 6:
                     salidaAlmacen();
+                    break;
+                case 7:
+                    guardarAlmacen();
+                    break;
+                case 8:
+                    cargarAlmacen();
                     break;
                 default:
                     System.out.println("Gracias por usar Gestisimal.");
@@ -72,7 +79,6 @@ public class TestSinProbar {
      * 
      * @throws Exception
      */
-
     private static void annadir() throws Exception {
 
         try {
@@ -101,7 +107,7 @@ public class TestSinProbar {
      */
     private static void baja() throws CodigoNoValidoException, NoEsEnteroException {
         try {
-            int codigo = Teclado.leerEntero("Introduce el códido del artículo a eliminar.");
+            int codigo = Teclado.leerEntero("Introduce el código del artículo a eliminar.");
             if (almacen.baja(codigo))
                 System.out.println("Artículo eliminado.");
             else
@@ -127,7 +133,7 @@ public class TestSinProbar {
 
         try {
             System.out.println("--MODIFICAR ARTÍCULO--");
-            int codigo = Teclado.leerEntero("Introduce el códido del artículo a eliminar.");
+            int codigo = Teclado.leerEntero("Introduce el código del artículo a eliminar.");
             Articulo articulo = almacen.get(codigo);
             System.out.println(articulo);
 
@@ -155,7 +161,7 @@ public class TestSinProbar {
     private static void entradaAlmacen() throws NoEsEnteroException, StockNegativoException {
         try {
             System.out.println("--INCREMENTAR STOCK--");
-            int codigo = Teclado.leerEntero("Introduce el códido del artículo a eliminar.");
+            int codigo = Teclado.leerEntero("Introduce el código del artículo a eliminar.");
             Articulo articulo = almacen.get(codigo);
             System.out.println(articulo);
 
@@ -176,7 +182,7 @@ public class TestSinProbar {
     private static void salidaAlmacen() throws NoEsEnteroException, CantidadNegativaException {
         try {
             System.out.println("--DECREMENTAR STOCK--");
-            int codigo = Teclado.leerEntero("Introduce el códido del artículo a eliminar.");
+            int codigo = Teclado.leerEntero("Introduce el código del artículo a eliminar.");
             Articulo articulo = almacen.get(codigo);
             System.out.println(articulo);
 
@@ -184,6 +190,34 @@ public class TestSinProbar {
             almacen.decrementar(codigo, cantidad);
         } catch (ArticuloNoExisteException | StockNegativoException | CantidadNegativaException e) {
             System.err.println("No se ha podido decrementar el stock del artículo." + e.getMessage() + "\n");
+        }
+    }
+    
+    //NOVEDADES!!
+    private static void guardarAlmacen() throws Exception{
+        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(archivo))){
+            System.out.println("--GUARDAR ALMACEN--");
+            oos.writeObject(almacen);
+            System.out.println("Almacén correctamente guardado en almacen.obj");
+        }
+        catch(IOException e){
+            System.out.println("Error al guardar el almacén: "+e.getMessage());
+        }
+    }
+    private static void cargarAlmacen() throws Exception{
+        File fichero = new File("almacen.obj");
+        if(!fichero.exists()){
+            System.out.println("No hay archivo de guardado previo. Creando colección nueva...");
+            almacenDePrueba();
+            return;
+        }        
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fichero))) {
+            System.out.println("--GUARDAR ALMACEN--");
+            almacen = (Almacen) ois.readObject();
+            System.out.println("Colección cargada con éxito");            
+        } 
+        catch (Exception e) {
+            System.out.println("Error al cargar la colección: "+e.getMessage());
         }
     }
 }

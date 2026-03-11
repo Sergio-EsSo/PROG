@@ -1,6 +1,8 @@
 package GESTISIMAL;
 
-public class Articulo {
+import java.io.Serializable;
+
+public class Articulo implements Serializable {
     //atributo de clase
     private static int contador=1;
     //atributos de objeto
