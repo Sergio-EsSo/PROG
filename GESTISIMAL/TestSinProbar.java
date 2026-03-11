@@ -201,7 +201,7 @@ public class TestSinProbar {
             System.out.println("Almacén correctamente guardado en almacen.obj");
         }
         catch(IOException e){
-            System.out.println("Error al guardar el almacén: "+e.getMessage());
+            System.err.println("Error al guardar el almacén: "+e.getMessage());
         }
     }
     private static void cargarAlmacen() throws Exception{
@@ -217,7 +217,7 @@ public class TestSinProbar {
             System.out.println("Colección cargada con éxito");            
         } 
         catch (Exception e) {
-            System.out.println("Error al cargar la colección: "+e.getMessage());
+            System.err.println("Error al cargar la colección: "+e.getMessage());
         }
     }
 }

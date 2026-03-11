@@ -2,7 +2,7 @@ package GESTISIMAL;
 
 import java.io.Serializable;
 
-public class Articulo implements Serializable {
+public class Articulo implements Serializable, Comparable<Articulo> {
     //atributo de clase
     private static int contador=1;
     //atributos de objeto
@@ -113,4 +113,10 @@ public class Articulo implements Serializable {
 	    setPrecioVenta(precioVenta);
         setStock(stock);
 	}
+
+	@Override
+  	public int compareTo(Articulo obj){
+    	Articulo articulo = obj;
+    	return this.getCodigo()-articulo.getCodigo();
+  	}
 }

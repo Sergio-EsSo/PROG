@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 //Gestiona el conjunto de artículos del almacén.
 
-public class Almacen implements Serializable {
+public class Almacen implements Serializable{
 
   // MI ALMACEN es un arraylist de articulos???
   private ArrayList<Articulo> arraylist = new ArrayList<Articulo>();
