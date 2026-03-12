@@ -7,9 +7,6 @@ public class Ejercicio5A {
         String caden1 = "Hola, soy de Cantabria";
         String caden2 = "Pero necesito cuarenta pesetas";
 
-        char[] cd1 = caden1.toCharArray();
-        char[] cd2 = caden2.toCharArray();
-
         String caden3 = mezclar(caden1, caden2);
         System.out.println(caden1);
         System.out.println(caden2);
